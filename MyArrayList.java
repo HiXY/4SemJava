@@ -3,20 +3,26 @@ class OwnArrayList <T>
     int size = 12;
     Object[] Array = new Object[size];
     int iter = 0;
-
-
+    long st = 0, en = 0;
+    long addRT = 0, addiRT = 0, clearRT = 0;
+        
+    
     void add (T item)
     {
+        st = System.nanoTime ();
         if (iter == Array.length)
         {
             enlarge (Array.length * 2);
         }
         Array[iter++] = item;
+        en = System.nanoTime ();
+        addRT += en - st;
     }
 
 
     void add (int index, T item)
     {
+        st = System.nanoTime ();
         if (iter == Array.length)
         {
             enlarge (Array.length * 2);
@@ -26,16 +32,21 @@ class OwnArrayList <T>
             Array[i] = Array[i - 1];
         }
         Array[index] = item;
+        en = System.nanoTime ();
+        addiRT += en - st;
     }
 
     
     void clear ()
     {
+        st = System.nanoTime ();
         for (int i = 0; i < Array.length; i++)
         {
             Array[i] = null;
         }
         iter = 0;
+        en = System.nanoTime ();
+        clearRT += en - st;
     }
 
     
@@ -82,6 +93,24 @@ class OwnArrayList <T>
             System.out.println (Array[i]);
         }
     }
+
+
+    void printaddRT ()
+    {
+        System.out.println ("addRunTime " + addRT + " ns");
+    }
+
+
+    void printaddiRT ()
+    {
+        System.out.println ("addindexRunTime " + addiRT + " ns");
+    }
+    
+    
+    void printclearRT ()
+    {
+        System.out.println ("clearRunTime " + clearRT + " ns");
+    }
 }
 
 
@@ -91,8 +120,10 @@ class MyArrayList
     {
         OwnArrayList <Integer> Arr = new OwnArrayList <Integer> ();
         Arr.add (15);
-        Arr.add (16);
-        Arr.add (17);
-        Arr.print (1);
+        Arr.add (15);
+        Arr.add (15);
+        Arr.printaddRT ();
+        Arr.printaddiRT ();
+        Arr.printclearRT ();
     }
 }
